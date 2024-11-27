@@ -33,7 +33,7 @@ chrome.runtime.onInstalled.addListener(function(details) {
     
     if (details.reason == "install") {
         chrome.tabs.create({
-            "url": "https://github.com/GigaArpit/AI-Summarizer/docs/extension-welcome.md"
+            "url": "https://github.com/gigaArpit/AI-Summarizer/blob/main/docs/extension-welcome.md"
         });
     }
 });

@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "AI Summarizer",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Experimental Chrome extension using Chrome's built-in Gemini Nano LLM for generating summaries of selected text.",
     "permissions": ["contextMenus", "sidePanel", "storage"],
     "background": {
@@ -13,7 +13,7 @@
         "128": "images/icon-128.png",
         "512": "images/icon-512.png"
     },
-    "homepage_url": "https://github.com/GigaArpit/AI-Summarizer/docs/extension-welcome.md",
+    "homepage_url": "https://github.com/gigaArpit/AI-Summarizer/blob/main/docs/extension-welcome.md",
     "side_panel": {
         "default_path": "/sidepanel/sidepanel.html"
     },
