@@ -1,4 +1,4 @@
-const geminiNanoError = "⚠️ Error: Gemini Nano not available. <br/>Make sure you follow <a href='https://github.com/GigaArpit/BrowserAI/docs/extension-welcome.md' target='_blank'>these steps</a> to enable the Gemini Nano in your browser.";
+const geminiNanoError = "⚠️ Error: Gemini Nano not available. <br/>Make sure you follow <a href='https://github.com/gigaArpit/AI-Summarizer/blob/main/docs/extension-welcome.md' target='_blank'>these steps</a> to enable the Gemini Nano in your browser.";
 
 const updateSummary = (text) => {
     document.getElementById('summary').innerHTML = text;
