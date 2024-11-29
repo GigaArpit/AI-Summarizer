@@ -7,7 +7,7 @@ const updateSummary = (text) => {
 async function summarizeText(inputText) {
     if (!window.ai || !window.ai.summarizer) {
         console.error("AI Summarizer is not available.");
-        return geminiNanoError;
+        return false;
     }
     
     try {
@@ -15,9 +15,9 @@ async function summarizeText(inputText) {
         const capabilities = await window.ai.summarizer.capabilities();
         if (capabilities.available !== "readily" && capabilities.available !== "after-download") {
             console.warn("Summarizer is not supported or unavailable.");
-            return "Summarizer is not supported or unavailable.";
+            return false;
         }
-
+        
         document.getElementById('summary').innerHTML = "Summarizing...";
         
         // Create a summarizer instance
@@ -26,17 +26,28 @@ async function summarizeText(inputText) {
             format: 'plain-text',
             length: 'medium',
         });
-
-        const summary = await summarizer.summarize(inputText);
+        
+        const stream = await summarizer.summarizeStreaming(inputText);
+        
+        let result = '';
+        let previousLength = 0;
+        for await (const segment of stream) {
+            const newContent = segment.slice(previousLength);
+            console.log(newContent);
+            previousLength = segment.length;  
+            result += newContent;
+            updateSummary(result);
+        }
+        console.log(result);
         
         // Destroy the summarizer instance after use
         summarizer.destroy();
         
         // Display the summary
-        return summary;
+        return true;
     } catch (error) {
         console.error("Error during summarization:", error);
-        return "Error during summarization. Please try again later.";
+        return false;
     }
 }
 
@@ -51,9 +62,7 @@ chrome.storage.local.get('selectedText', async ({ selectedText  }) => {
         
         else {
             let summary = await summarizeText(selectedText);
-            if (summary) {
-                updateSummary(summary);
-            } else {
+            if (!summary) {
                 updateSummary("Gemini Nano failed to generate a summary. Please try again later.");
             }
         }
@@ -69,9 +78,7 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
         }
         
         else summarizeText(changes.selectedText.newValue).then((summary) => {
-            if (summary) {
-                updateSummary(summary);
-            } else {
+            if (!summary) {
                 updateSummary("Gemini Nano failed to generate a summary. Please try again later.");
             }
         });
