@@ -4,7 +4,7 @@
 
 * Since the necessary APIs are still under development, this extension is not supported in the stable builds of Chrome. To test the extension, please use the [latest Canary build](https://www.google.com/search?q=download+chrome+canary) of Chrome on Windows, macOS or Linux.
 
-* Open Chrome Canary, and go to `chrome://flags/#summarization-api-for-gemini-nano`, and select *Enabled*. Now restart your browser to apply changes.
+* Open Chrome Canary, and go to `chrome://flags/#summarization-api-for-gemini-nano` and `chrome://flags/#optimization-guide-on-device-model`, select *Enabled* for both. Now restart your browser to apply changes.
 
 ## Step 2: Setup Gemini Nano LLM
 
