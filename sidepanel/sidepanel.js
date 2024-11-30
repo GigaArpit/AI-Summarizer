@@ -38,12 +38,16 @@ async function summarizeText(inputText) {
             result += newContent;
             updateSummary(result);
         }
-        console.log(result);
         
-        // Destroy the summarizer instance after use
         summarizer.destroy();
+        await chrome.storage.local.clear(() => {
+            if (chrome.runtime.lastError) {
+                console.error('Error clearing storage:', chrome.runtime.lastError);
+            } else {
+                console.log('Storage cleared successfully.');
+            }
+        });
         
-        // Display the summary
         return true;
     } catch (error) {
         console.error("Error during summarization:", error);
@@ -71,13 +75,11 @@ chrome.storage.local.get('selectedText', async ({ selectedText  }) => {
 });
 
 chrome.storage.onChanged.addListener((changes, namespace) => {
-    if (namespace === 'local' && changes.selectedText) {
+    if (namespace === 'local' && changes.selectedText && changes.selectedText.newValue !== undefined) {
         if (!window.ai || !window.ai.summarizer) {
             console.error("AI Summarizer is not available.");
             updateSummary(geminiNanoError);
-        }
-        
-        else summarizeText(changes.selectedText.newValue).then((summary) => {
+        } else summarizeText(changes.selectedText.newValue).then((summary) => {
             if (!summary) {
                 updateSummary("Gemini Nano failed to generate a summary. Please try again later.");
             }
